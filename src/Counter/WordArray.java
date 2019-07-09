@@ -30,12 +30,13 @@ public class WordArray {
 
     @Override
     public String toString() {
-        StringBuffer temp=new StringBuffer();
+        ArrayList<String> temp=new ArrayList<>();
+        StringBuffer ret=new StringBuffer();
 
         Comparator<Entry<String,Integer>> stringComp=(Entry<String, Integer> o1, Entry<String, Integer> o2)->{
             int s1 = o1.getValue();
             int s2 = o2.getValue();
-            return s1 - s2;
+            return s2 - s1;
         };
         Set<Entry<String,Integer>> entries=map.entrySet();
 
@@ -52,15 +53,32 @@ public class WordArray {
         int i=0;
         for(Entry<String,Integer> mapped:sorted.entrySet()){
             if(i<50){
-                temp.append(mapped.getKey()+": Seen "+mapped.getValue()+ " Times\n");
+                temp.add(mapped.getKey()+" is seen "+mapped.getValue()+" times");
             }
-            i++;
+            ++i;
         }
 
-        return temp.toString();
+        temp.sort((String s1, String s2)->{
+            return s1.compareToIgnoreCase(s2);
+        });
+
+        for (String s : temp) {
+            ret.append(s+"\n");
+        }
+
+        return ret.toString();
     }
 
     public void add(String which){
-       map.merge(which,1,Integer::sum);
+       map.merge(which.toLowerCase(),1,Integer::sum);
+    }
+
+    public boolean run(){
+        String[] words=input.split(" +");
+        for (String s : words) {
+            add(s);
+        }
+        System.out.println("Done");
+        return true;
     }
 }
