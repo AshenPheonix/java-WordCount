@@ -8,5 +8,10 @@ public class Main {
         runner.input(bigOne.pared());
         runner.run();
         System.out.println(runner);
+
+        System.out.println("*** Single ***");
+
+        runner.input(bigOne.raw());
+        System.out.println(runner.stringBuff());
     }
 }
